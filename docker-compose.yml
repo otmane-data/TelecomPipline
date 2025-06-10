@@ -1,0 +1,81 @@
+
+version: '3.7'
+
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - kafka-net
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    ports:
+      - "9092:9092"
+      - "9093:9093"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'true'
+    depends_on:
+      - zookeeper
+    networks:
+      - kafka-net
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - kafka-net
+
+  ed-pyspark-jupyter:
+    image: jupyter/pyspark-notebook:spark-3.3.0
+    user: root
+    container_name: ed-pyspark-jupyter-lab
+    ports:
+      - "8888:8888"
+      - "4040:4040"
+    environment:
+      JUPYTER_PORT: 8888
+      SPARK_UI_PORT: 4040
+      GRANT_SUDO: "yes"
+    volumes:
+      - ./data:/home/jovyan/rw
+      - ./src:/home/jovyan/src:rw
+    command: >
+      bash -c "wget https://jdbc.postgresql.org/download/postgresql-42.2.27.jar -P /usr/local/spark/jars/ && pip install kafka-python psycopg2-binary && start-notebook.sh"
+    depends_on:
+      - kafka
+      - postgres
+    networks:
+      - kafka-net
+
+  postgres:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: telecomdb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: otmane
+    ports:
+      - "5432:5432"
+    networks:
+      - kafka-net
+
+networks:
+  kafka-net:
+    driver: bridge
