@@ -14,7 +14,7 @@ Ce projet implémente un pipeline complet de traitement de données dans un cont
 📊 Visualisation : Affichage dynamique via une application Streamlit.
 
 🧱 Architecture
-
+ ![Architecture du projet](sets/Diagramme%20sans%20nom.drawio%20(2).png)
 
 text
 Copier
