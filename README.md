@@ -1,76 +1,116 @@
-# Pipeline Télécom : Génération, Médiation, Tarification, Stockage et Visualisation
+📡 Pipeline Télécom – Génération, Médiation, Tarification, Stockage & Visualisation
+🧾 Présentation
+Ce projet implémente un pipeline complet de traitement de données dans un contexte télécom, en allant de la génération de données simulées jusqu’à leur visualisation interactive.
 
-## Présentation
-Ce projet met en œuvre un pipeline complet pour la gestion de données télécoms, de la génération à la visualisation :
-- **Génération** : Création de données simulées via un générateur Python.
-- **Médiation** : Transmission des données par Kafka.
-- **Tarification** : Traitement et calcul des factures avec Spark.
-- **Stockage** : Insertion des factures dans une base PostgreSQL.
-- **Visualisation** : Affichage interactif des factures avec Streamlit.
+🔄 Étapes principales :
+🛠️ Génération : Création de données télécom simulées en Python.
 
-## Architecture
+📡 Médiation : Envoi des événements via Apache Kafka.
 
-![Architecture du projet](sets/Diagramme%20sans%20nom.drawio%20(2).png)
+⚙️ Tarification : Traitement des événements et génération de factures avec Apache Spark.
 
-```
+🗄️ Stockage : Insertion des factures dans PostgreSQL.
+
+📊 Visualisation : Affichage dynamique via une application Streamlit.
+
+🧱 Architecture
+
+
+text
+Copier
+Modifier
 [Data Generator] → [Kafka] → [Spark Streaming] → [PostgreSQL] → [Streamlit App]
-```
+🔧 Prérequis
+Assurez-vous d’avoir les outils suivants installés :
 
-## Prérequis
-- Python 3.8+
-- Docker & Docker Compose
-- Apache Kafka
-- Apache Spark
-- PostgreSQL
-- Streamlit
+Python ≥ 3.8
 
-## Installation
-1. **Cloner le dépôt**
-```bash
+Docker & Docker Compose
+
+Apache Kafka
+
+Apache Spark
+
+PostgreSQL
+
+Streamlit
+
+🚀 Installation
+1. Cloner le dépôt
+bash
+Copier
+Modifier
 git clone <repo_url>
 cd big-data
-```
-2. **Lancer les services avec Docker Compose**
-```bash
+2. Lancer les services avec Docker Compose
+bash
+Copier
+Modifier
 docker-compose up --build
-```
-Cela démarre Kafka, PostgreSQL, Jupyter/Spark, etc.
+Cela démarre les services nécessaires (Kafka, PostgreSQL, Spark, etc.).
 
-3. **Installer les dépendances Python**
-```bash
+3. Installer les dépendances Python
+bash
+Copier
+Modifier
 pip install -r requirements.txt
-```
+⚙️ Lancement des modules
+▶️ Générateur de données
+Script de simulation d’événements envoyés à Kafka :
 
-## Lancement des modules
-- **Générateur de données** :
-  - Voir `src/data_generator/generator.py` pour générer et envoyer des événements vers Kafka.
-- **Consommateur Kafka & Insertion PostgreSQL** :
-  - Exécuter :
-    ```bash
-    python consomateur.py
-    ```
-- **Traitement Spark** :
-  - Utiliser le notebook `data/otmane.ipynb` pour lire depuis Kafka, traiter et produire les factures.
-- **Visualisation Streamlit** :
-  - Lancer :
-    ```bash
-    streamlit run streamlit_app.py
-    ```
-  - Accéder à l'interface sur [http://localhost:8501](http://localhost:8501)
+bash
+Copier
+Modifier
+python src/data_generator/generator.py
+▶️ Consommateur Kafka → PostgreSQL
+Consomme les messages Kafka et les insère dans la base PostgreSQL :
 
-## Exemple d'utilisation
-- Les factures générées sont stockées dans la table `invoices` de PostgreSQL.
-- L'application Streamlit permet de visualiser et d'explorer les factures en temps réel.
+bash
+Copier
+Modifier
+python consomateur.py
+▶️ Traitement Spark (Tarification)
+Exécuter le traitement et la génération de factures dans :
 
-## Structure du projet
-- `src/data_generator/` : Génération de données simulées
-- `consomateur.py` : Consommateur Kafka et insertion en base
-- `data/otmane.ipynb` : Traitement Spark
-- `streamlit_app.py` : Visualisation
-- `docker-compose.yml` : Orchestration des services
+bash
+Copier
+Modifier
+data/otmane.ipynb
+Ce notebook Spark lit depuis Kafka, applique la logique métier et produit les factures.
 
-## Auteurs
-- Projet réalisé par Otmane et collaborateurs.
+▶️ Visualisation avec Streamlit
+Lancer l’application :
 
-## Licence
-MIT
+bash
+Copier
+Modifier
+streamlit run streamlit_app.py
+Accessible via http://localhost:8501
+
+📂 Structure du projet
+bash
+Copier
+Modifier
+big-data/
+├── src/
+│   └── data_generator/         # Générateur de données simulées
+├── consomateur.py              # Kafka → PostgreSQL
+├── data/
+│   └── otmane.ipynb            # Traitement Spark
+├── streamlit_app.py            # Interface Streamlit
+├── requirements.txt            # Dépendances Python
+├── docker-compose.yml          # Services Docker
+└── README.md                   # Ce fichier
+🧪 Exemple d’utilisation
+Les factures télécom sont enregistrées dans la table invoices de la base PostgreSQL.
+
+L’interface Streamlit permet :
+
+🔍 de filtrer les clients,
+
+📈 de visualiser les montants par cycle,
+
+📄 d’explorer les détails de chaque facture.
+
+👥 Auteurs
+Projet réalisé par Otmane et collaborateurs, dans le cadre d’un projet Big Data.
