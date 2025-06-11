@@ -87,10 +87,6 @@ Modifier
 streamlit run streamlit_app.py
 Accessible via http://localhost:8501
 
-📂 Structure du projet
-bash
-Copier
-Modifier
 big-data/
 ├── src/
 │   └── data_generator/         # Générateur de données simulées
@@ -101,6 +97,7 @@ big-data/
 ├── requirements.txt            # Dépendances Python
 ├── docker-compose.yml          # Services Docker
 └── README.md                   # Ce fichier
+
 🧪 Exemple d’utilisation
 Les factures télécom sont enregistrées dans la table invoices de la base PostgreSQL.
 
