@@ -25,6 +25,7 @@ Copier
 Modifier
 [Data Generator] → [Kafka] → [Spark Streaming] → [PostgreSQL] → [Streamlit App]
 🔧 Prérequis
+
 Assurez-vous d’avoir les outils suivants installés :
 
 Python ≥ 3.8
@@ -40,6 +41,7 @@ PostgreSQL
 Streamlit
 
 🚀 Installation
+
 1. Cloner le dépôt
 bash
 Copier
@@ -54,18 +56,21 @@ docker-compose up --build
 Cela démarre les services nécessaires (Kafka, PostgreSQL, Spark, etc.).
 
 3. Installer les dépendances Python
+4. 
 bash
 Copier
 Modifier
 pip install -r requirements.txt
 ⚙️ Lancement des modules
 ▶️ Générateur de données
+
 Script de simulation d’événements envoyés à Kafka :
 
 bash
 Copier
 Modifier
 python src/data_generator/generator.py
+
 ▶️ Consommateur Kafka → PostgreSQL
 
 Consomme les messages Kafka et les insère dans la base PostgreSQL :
@@ -74,6 +79,7 @@ bash
 Copier
 Modifier
 python consomateur.py
+
 ▶️ Traitement Spark (Tarification)
 
 Exécuter le traitement et la génération de factures dans :
@@ -85,6 +91,7 @@ data/otmane.ipynb
 Ce notebook Spark lit depuis Kafka, applique la logique métier et produit les factures.
 
 ▶️ Visualisation avec Streamlit
+
 Lancer l’application :
 
 bash
