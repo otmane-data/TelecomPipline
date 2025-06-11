@@ -3,8 +3,9 @@ import json
 import psycopg2
 from psycopg2.extras import execute_values
 import os
-os.environ['PGCLIENTENCODING'] = 'UTF8'
-os.environ['LC_ALL'] = 'C'
+# Removed problematic environment variables that may cause encoding conflicts
+# os.environ['PGCLIENTENCODING'] = 'UTF8'
+# os.environ['LC_ALL'] = 'C'
 
 # Configuration Kafka
 kafka_bootstrap_servers = ['localhost:9092']
@@ -35,7 +36,8 @@ try:
     cursor = conn.cursor()
     print("Connexion à PostgreSQL réussie !")
 except psycopg2.Error as e:
-    print(f"Erreur de connexion à PostgreSQL : {str(e).encode('utf-8', errors='replace').decode('utf-8')}")
+    # Print error message safely, avoiding encoding issues
+    print(f"Erreur de connexion à PostgreSQL : {str(e)}")
     exit(1)
 
 # Créer la table si elle n'existe pas
